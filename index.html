@@ -19,23 +19,23 @@ button{padding:10px 20px;border:none;border-radius:20px;background:white;margin:
 
 </head>
 <body><div class="page active" id="p1">
-<h1>Happy Birthday, Sayangku 🎂</h1>
-<p>Semoga hari ini penuh kebahagiaan ❤️</p>
+<h1>Happy Birthday, bbyYyy</h1>
+<p>Semoga hari ini, esok, dan seterusnya selalu jadi hari yang terbaik ia buat kamu. Semoga ur wishes come true secepatnya ya bbyyy, dari mulai wishes yang kecil sampe yang besarr. And, my only wishes for u aku mau kita bareng selamanyaa,aku mau kamu sayang aku selamanya, yayayaya</p>
 <button onclick="go(2)">Next</button>
 </div><div class="page" id="p2">
-<h1>Memory Game 💖</h1>
+<h1>Memory Game</h1>
 <p id="lvl">Level 1</p>
 <div id="board" class="board"></div>
 </div><div class="page" id="p3">
-<h1>Kamu siap jalanin kehidupan di umur 16?</h1>
-<button onclick="go(4)">Siap</button>
-<button id="noBtn">Belum</button>
+<h1>Kamu ciap tidak jalanin kehidupan di umur 16 dan seteyusnya?</h1>
+<button onclick="go(4)">ciaappp anet</button>
+<button id="noBtn">Bewum:c</button>
 </div><div class="page" id="p4">
 <h1 id="q"></h1>
 <div id="a"></div>
 </div><div class="page" id="p5">
 <h1 onclick="cake()">🎂</h1>
-<p>tekan kuenya!</p>
+<p>tekan kuenyah</p>
 </div><script>
 function go(n){
  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
@@ -48,7 +48,7 @@ function go(n){
 // MEMORY
 let level=1,first=null,second=null,lock=false,match=0;
 function start(){
- const sets=[['💖','💖','🎂','🎂'],['💖','💖','🎂','🎂','😍','😍'],['💖','💖','🎂','🎂','😍','😍','🥰','🥰']];
+ const sets=[['🤍','🤍','🎂','🎂'],['🤍','🤍','🎂','🎂','😙','😙'],['🤍','🤍','🎂','🎂','😙','😙','👅','👅']];
  const data=sets[level-1].sort(()=>Math.random()-0.5);
  const b=document.getElementById('board');
  b.innerHTML='';
@@ -87,7 +87,7 @@ function start(){
 function win(){
  const w=document.createElement('div');
  w.className='win';
- w.innerText='Yeyy, ur the bestt sayangg 💖';
+ w.innerText='Yeyy, tita keyennn';
  document.body.append(w);
  setTimeout(()=>w.remove(),1200);
 }
@@ -134,7 +134,7 @@ function cake(){
   document.body.append(c);
   setTimeout(()=>c.remove(),3000);
  }
- typeText('Happy birthday sayangku, aku sayang kamu, semoga semua yang kamu impikan terkabul secepatnya <3 aku sayang kamu selalu <3');
+ typeText('Happy birthday sayangku, aku sayang kamu. Dont forget to enjoy ur life ya bbyy, kan ada aku jugak buat kamu enjoy, nyeheh. Semangat ia bby jadi abang abang, luvyuu');
 }
 
 function typeText(t){
