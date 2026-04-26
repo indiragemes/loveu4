@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Tirta</title>
+<style>
+body{margin:0;font-family:Poppins,sans-serif;background:linear-gradient(135deg,#ff9a9e,#fad0c4);overflow:hidden}
+.page{display:none;height:100vh;justify-content:center;align-items:center;flex-direction:column;text-align:center}
+.active{display:flex}
+h1{color:white}
+p{color:white}
+button{padding:10px 20px;border:none;border-radius:20px;background:white;margin:8px}.board{display:grid;gap:10px} .card{width:70px;height:70px;perspective:600px} .inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:.5s} .flip{transform:rotateY(180deg)} .front,.back{position:absolute;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:10px;backface-visibility:hidden} .front{background:white} .back{background:#ff6b81;color:white;font-size:24px;transform:rotateY(180deg)}
+
+.win{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:2em;animation:pop 1s} @keyframes pop{0%{transform:translate(-50%,-50%) scale(0)}100%{transform:translate(-50%,-50%) scale(1)}}
+
+.confetti{position:absolute;width:8px;height:8px;top:0;animation:fall 3s linear forwards} @keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+
+.heart{position:absolute;color:white;animation:float 4s linear infinite} @keyframes float{to{transform:translateY(-100vh)}} </style>
+
+</head>
+<body><div class="page active" id="p1">
+<h1>Happy Birthday, Sayangku 🎂</h1>
+<p>Semoga hari ini penuh kebahagiaan ❤️</p>
+<button onclick="go(2)">Next</button>
+</div><div class="page" id="p2">
+<h1>Memory Game 💖</h1>
+<p id="lvl">Level 1</p>
+<div id="board" class="board"></div>
+</div><div class="page" id="p3">
+<h1>Kamu siap jalanin kehidupan di umur 16?</h1>
+<button onclick="go(4)">Siap</button>
+<button id="noBtn">Belum</button>
+</div><div class="page" id="p4">
+<h1 id="q"></h1>
+<div id="a"></div>
+</div><div class="page" id="p5">
+<h1 onclick="cake()">🎂</h1>
+<p>tekan kuenya!</p>
+</div><script>
+function go(n){
+ document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+ document.getElementById('p'+n).classList.add('active');
+ if(n==2)start();
+ if(n==3)setupNo();
+ if(n==4)quizLoad();
+}
+
+// MEMORY
+let level=1,first=null,second=null,lock=false,match=0;
+function start(){
+ const sets=[['💖','💖','🎂','🎂'],['💖','💖','🎂','🎂','😍','😍'],['💖','💖','🎂','🎂','😍','😍','🥰','🥰']];
+ const data=sets[level-1].sort(()=>Math.random()-0.5);
+ const b=document.getElementById('board');
+ b.innerHTML='';
+ b.style.gridTemplateColumns=`repeat(${Math.sqrt(data.length)},70px)`;
+ document.getElementById('lvl').innerText='Level '+level;
+ match=0;first=null;second=null;lock=false;
+
+ data.forEach(e=>{
+  const c=document.createElement('div');c.className='card';
+  const i=document.createElement('div');i.className='inner';
+  const f=document.createElement('div');f.className='front';f.innerText='?';
+  const bk=document.createElement('div');bk.className='back';bk.innerText=e;
+  i.append(f,bk);c.append(i);
+
+  c.onclick=()=>{
+   if(lock||i.classList.contains('flip'))return;
+   i.classList.add('flip');
+   if(!first)first={i,e};
+   else{
+    second={i,e};lock=true;
+    if(first.e==second.e){
+      match++;first=null;second=null;lock=false;
+      if(match==data.length/2){
+        if(level<3){level++;setTimeout(start,700)}
+        else{win();setTimeout(()=>go(3),1500)}
+      }
+    }else{
+      setTimeout(()=>{first.i.classList.remove('flip');second.i.classList.remove('flip');first=null;second=null;lock=false},700)
+    }
+   }
+  }
+  b.append(c);
+ })
+}
+
+function win(){
+ const w=document.createElement('div');
+ w.className='win';
+ w.innerText='Yeyy, ur the bestt sayangg 💖';
+ document.body.append(w);
+ setTimeout(()=>w.remove(),1200);
+}
+
+// QUIZ
+const quiz=[
+{q:'Kapan tanggal kita jadian',a:[['35 april 1245 SM',0],['30 Januari 2025',1]]},
+{q:'Siyapa adik adik imup yang bikin ini',a:[['Pacarku, Indira',1],['Dito',0]]},
+{q:'Apa gem kesukaan adik',a:[['Roblok asix',1],['emel jelek🙄',0]]},
+{q:'Kamu lebih suka aku cium atau aku peyuk',a:[['Peluk',1],['Cium',1],['Dua duanya',1]]}
+];
+let qi=0;
+function quizLoad(){
+ const q=quiz[qi];
+ document.getElementById('q').innerText=q.q;
+ const box=document.getElementById('a');box.innerHTML='';
+ q.a.forEach(x=>{
+  const b=document.createElement('button');b.innerText=x[0];
+  b.onclick=()=>{
+    if(!x[1])alert('SALAH BBYYY, TETOTTT😡😡😡😡');
+    else{qi++;if(qi<quiz.length)quizLoad();else go(5)}
+  }
+  box.append(b);
+ })
+}
+
+// NO BUTTON
+function setupNo(){
+ const n=document.getElementById('noBtn');
+ n.onmouseover=()=>{
+  n.style.position='absolute';
+  n.style.left=Math.random()*300+'px';
+  n.style.top=Math.random()*500+'px';
+ }
+}
+
+// CAKE
+function cake(){
+ for(let i=0;i<40;i++){
+  const c=document.createElement('div');
+  c.className='confetti';
+  c.style.left=Math.random()*100+'vw';
+  c.style.background=`hsl(${Math.random()*360},100%,70%)`;
+  document.body.append(c);
+  setTimeout(()=>c.remove(),3000);
+ }
+ typeText('Happy birthday sayangku, aku sayang kamu, semoga semua yang kamu impikan terkabul secepatnya <3 aku sayang kamu selalu <3');
+}
+
+function typeText(t){
+ let i=0;
+ const d=document.createElement('div');
+ d.style.position='fixed';d.style.top='50%';d.style.left='50%';
+ d.style.transform='translate(-50%,-50%)';d.style.color='white';
+ d.style.textAlign='center';d.style.maxWidth='80%';
+ document.body.append(d);
+ function loop(){
+  if(i<t.length){d.innerHTML+=t[i];i++;setTimeout(loop,40)}
+ }
+ loop();
+}
+
+// HEART
+setInterval(()=>{
+ const h=document.createElement('div');
+ h.className='heart';h.innerText='💖';
+ h.style.left=Math.random()*100+'vw';
+ document.body.append(h);
+ setTimeout(()=>h.remove(),4000);
+},500);
+
+</script></body>
+  </html>
